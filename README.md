@@ -18,6 +18,7 @@
 ```text
 项目根目录/
 ├─ AGENTS.md                         # 人和 AI 都必须遵守的项目规则
+├─ PROJECT_CONTEXT.md                # 新聊天首先读取的项目入口
 ├─ PROJECT_STATUS.md                 # 跨仓库、跨设备的项目总状态，可选
 └─ docs/
    ├─ README.md                      # 文档导航与职责边界
@@ -44,14 +45,15 @@
 
 ## 最小使用方案
 
-小项目先保留以下 6 份文件即可：
+小项目先保留以下 7 份文件即可：
 
 1. `AGENTS.md`
-2. `docs/README.md`
-3. `docs/ai/PROJECT_STATE.md`
-4. `docs/ai/DECISIONS.md`
-5. `docs/ai/TODO.md`
-6. `docs/testing/TEST_MATRIX.md`
+2. `PROJECT_CONTEXT.md`
+3. `docs/README.md`
+4. `docs/ai/PROJECT_STATE.md`
+5. `docs/ai/DECISIONS.md`
+6. `docs/ai/TODO.md`
+7. `docs/testing/TEST_MATRIX.md`
 
 当项目出现部署、客户数据、外部设备、安全状态机或多人协作时，再启用其余文档。
 
@@ -60,6 +62,7 @@
 | 信息 | 唯一归属 | 不应放在哪里 |
 |---|---|---|
 | 必须遵守的规则 | `AGENTS.md` | 状态日志、聊天记录 |
+| 新聊天先知道什么 | `PROJECT_CONTEXT.md` | 超长历史日志 |
 | 项目现在是什么状态 | `PROJECT_STATE.md` | `DECISIONS.md` |
 | 为什么这样设计 | `DECISIONS.md` | `TODO.md` |
 | 还没完成什么 | `TODO.md` | 已完成记录 |
@@ -101,19 +104,31 @@ Git 状态、diff、配置、构建脚本和自动测试
 
 1. 复制本模板目录到新项目。
 2. 全局搜索 `{{`，替换占位符。
-3. 在 `AGENTS.md` 写清唯一源码目录、禁止修改范围和高风险规则。
-4. 在 `PROJECT_STATE.md` 记录真实版本、分支、运行基线和已知风险。
-5. 在 `docs/README.md` 建立任务到文档的导航。
-6. 根据实际模块复制 `MODULE_TEMPLATE.md`。
-7. 删除不适用内容，不保留虚假“已完成”项。
-8. 首次提交前检查所有文本为 UTF-8，并确认不包含密钥、客户数据和本机隐私路径。
+3. 确认 `AGENTS.md` 位于用户实际打开的工作区根目录；它是新聊天自动获得启动规则的关键入口。
+4. 在 `PROJECT_CONTEXT.md` 写清项目是什么、真正改哪里、当前做到哪和下一步是什么。
+5. 在 `AGENTS.md` 写清唯一源码目录、禁止修改范围和高风险规则。
+6. 在 `PROJECT_STATE.md` 记录真实版本、分支、运行基线和已知风险。
+7. 在 `docs/README.md` 建立任务到文档的导航。
+8. 根据实际模块复制 `MODULE_TEMPLATE.md`。
+9. 删除不适用内容，不保留虚假“已完成”项。
+10. 首次提交前检查所有文本为 UTF-8，并确认不包含密钥、客户数据和本机隐私路径。
+
+## 为什么以前仍需要人工提醒
+
+`README.md`、`PROJECT_CONTEXT.md` 和普通 Markdown 文件不会因为存在于工作区就自动进入每个新聊天的上下文。要避免反复提醒，需要同时满足：
+
+1. 用户打开的工作区根目录中存在 `AGENTS.md`；
+2. `AGENTS.md` 明确要求新聊天先读取 `PROJECT_CONTEXT.md` 和状态文档；
+3. 新聊天打开的是正确工作区，而不是源码的父目录、运行产物目录或某个子目录；
+4. 文档中的路径仍然有效。
+
+如果只生成 `README.md + PROJECT_CONTEXT.md`，却没有根目录 `AGENTS.md` 负责引导，新聊天仍可能不知道要主动读取它们。
 
 ## 维护节奏
 
-- 每次任务前：读规则、状态、专项文档，检查 Git 和真实路径。
+- 每次新聊天/任务前：由根目录 `AGENTS.md` 触发，先读 `PROJECT_CONTEXT.md`、状态和专项文档，再检查 Git 和真实路径。
 - 每次任务后：记录改动、测试等级、未验证边界和回滚点。
 - 阶段完成时：更新 `PROJECT_STATE.md` 与 `TODO.md`。
 - 只有长期决策变化时：更新 `DECISIONS.md`。
 - 只有架构事实变化时：更新对应架构文档。
 - 发布时：生成独立发布记录，不把整段聊天复制进长期文档。
-

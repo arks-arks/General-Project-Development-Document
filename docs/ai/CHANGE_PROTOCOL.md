@@ -7,7 +7,7 @@
 ```text
 收到需求
 ↓
-读取 AGENTS.md、PROJECT_STATE.md、文档导航
+读取 AGENTS.md、PROJECT_CONTEXT.md、PROJECT_STATE.md、文档导航
 ↓
 检查 Git、真实路径、运行环境和已有修改
 ↓
@@ -37,6 +37,14 @@
 - 禁止触碰：{{数据、设备、配置。}}
 - 计划验证：{{L1-L4。}}
 - 回滚点：{{备份、commit 或快照。}}
+
+## 新聊天接手检查
+
+- [ ] 根目录 `AGENTS.md` 已被发现并完整阅读。
+- [ ] `PROJECT_CONTEXT.md` 已完整阅读，不需要等待用户提醒。
+- [ ] `docs/ai/PROJECT_STATE.md` 与任务专项文档已阅读。
+- [ ] 当前打开的工作区确实是 `AGENTS.md` 所描述的根目录。
+- [ ] 文档路径与磁盘路径已核对；失效路径已明确报告。
 
 ## 验证分级写法
 
@@ -72,4 +80,3 @@
 4. 只有架构事实变化才更新专项架构文档。
 5. 用 `templates/CHANGE_RECORD.md` 记录本次证据和未验证边界。
 6. 不把聊天全文复制进文档。
-
